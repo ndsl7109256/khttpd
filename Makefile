@@ -1,13 +1,19 @@
 KDIR=/lib/modules/$(shell uname -r)/build
 
-CFLAGS_user = -std=gnu99 -Wall -Wextra -Werror
+ccflags-y := -std=gnu99 -Wno-declaration-after-statement -msse2
+CFLAGS_user = -std=gnu99 -Wall -Wextra -Werror -Wno-declaration-after-statement -msse2
 LDFLAGS_user = -lpthread
 
 obj-m += khttpd.o
 khttpd-objs := \
 	http_parser.o \
 	http_server.o \
-	main.o
+	bignum_k/apm.o \
+	bignum_k/bignum.o \
+	bignum_k/format.o \
+	bignum_k/mul.o \
+	bignum_k/sqr.o \
+	main.o 
 
 GIT_HOOKS := .git/hooks/applied
 all: $(GIT_HOOKS) http_parser.c htstress
